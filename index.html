@@ -1,0 +1,1121 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Questionnaire Patient</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Serif+Display&display=swap" rel="stylesheet" />
+  <style>
+    /* ── Reset & Variables ─────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:           #f5f4f0;
+      --bg-card:      #ffffff;
+      --bg-input:     #f0efe9;
+      --border:       #e2e0d8;
+      --border-focus: #2d5a3d;
+
+      --text-primary:   #1a1a18;
+      --text-secondary: #4a4a45;
+      --text-muted:     #8a8a82;
+
+      --accent:         #2d5a3d;
+      --accent-light:   #e8f0eb;
+      --accent-dark:    #1e3d29;
+      --danger:         #c0392b;
+      --danger-light:   #fdf0ee;
+      --warning:        #b7791f;
+      --warning-light:  #fef9ec;
+      --success:        #2d5a3d;
+      --success-light:  #e8f0eb;
+
+      --radius-sm:  6px;
+      --radius-md:  10px;
+      --radius-lg:  16px;
+      --radius-xl:  24px;
+
+      --shadow-card: 0 1px 3px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.04);
+      --shadow-btn:  0 2px 8px rgba(45,90,61,0.25);
+
+      --font-display: 'DM Serif Display', Georgia, serif;
+      --font-body:    'DM Sans', system-ui, sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--bg);
+      color: var(--text-primary);
+      min-height: 100vh;
+      padding-bottom: 40px;
+    }
+
+    /* ── Header ────────────────────────────────────────────── */
+    .header {
+      background: var(--accent);
+      padding: 28px 20px 24px;
+      position: relative;
+      overflow: hidden;
+    }
+    .header::after {
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      left: 0; right: 0;
+      height: 20px;
+      background: var(--bg);
+      border-radius: 20px 20px 0 0;
+    }
+    .header-institution {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.65);
+      margin-bottom: 6px;
+    }
+    .header-title {
+      font-family: var(--font-display);
+      font-size: 24px;
+      color: #ffffff;
+      line-height: 1.2;
+      margin-bottom: 4px;
+    }
+    .header-subtitle {
+      font-size: 13px;
+      color: rgba(255,255,255,0.7);
+    }
+
+    /* ── Patient Info Card ─────────────────────────────────── */
+    .patient-card {
+      margin: 20px 16px 0;
+      background: var(--bg-card);
+      border-radius: var(--radius-lg);
+      padding: 18px 20px;
+      box-shadow: var(--shadow-card);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .patient-avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: var(--accent-light);
+      border: 2px solid var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-display);
+      font-size: 20px;
+      color: var(--accent);
+      flex-shrink: 0;
+    }
+    .patient-name {
+      font-size: 17px;
+      font-weight: 600;
+      color: var(--text-primary);
+      line-height: 1.3;
+    }
+    .patient-meta {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+    .patient-reg {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      background: var(--accent-light);
+      color: var(--accent);
+      padding: 2px 8px;
+      border-radius: 20px;
+      margin-top: 4px;
+    }
+
+    /* ── Progress Bar ──────────────────────────────────────── */
+    .progress-wrap {
+      margin: 20px 16px 0;
+    }
+    .progress-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+    .progress-bar-bg {
+      height: 4px;
+      background: var(--border);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    .progress-bar-fill {
+      height: 100%;
+      background: var(--accent);
+      border-radius: 4px;
+      transition: width 0.4s ease;
+    }
+
+    /* ── Section ───────────────────────────────────────────── */
+    .section {
+      margin: 20px 16px 0;
+      display: none;
+    }
+    .section.active { display: block; }
+
+    .section-header {
+      margin-bottom: 14px;
+    }
+    .section-number {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 4px;
+    }
+    .section-title {
+      font-family: var(--font-display);
+      font-size: 22px;
+      color: var(--text-primary);
+      line-height: 1.2;
+    }
+    .section-desc {
+      font-size: 13px;
+      color: var(--text-secondary);
+      margin-top: 6px;
+      line-height: 1.5;
+    }
+
+    /* ── Card ──────────────────────────────────────────────── */
+    .card {
+      background: var(--bg-card);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-card);
+      overflow: hidden;
+    }
+
+    /* ── Choice Options ────────────────────────────────────── */
+    .choice-group { }
+
+    .choice-option {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 16px 18px;
+      border-bottom: 1px solid var(--border);
+      cursor: pointer;
+      transition: background 0.15s;
+      position: relative;
+    }
+    .choice-option:last-child { border-bottom: none; }
+    .choice-option:active { background: var(--bg-input); }
+
+    .choice-option input[type="radio"],
+    .choice-option input[type="checkbox"] {
+      position: absolute;
+      opacity: 0;
+      width: 0; height: 0;
+    }
+
+    .choice-indicator {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 2px solid var(--border);
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      background: var(--bg-input);
+    }
+    .choice-indicator.square {
+      border-radius: 6px;
+    }
+    .choice-indicator::after {
+      content: '';
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: transparent;
+      transition: all 0.2s;
+    }
+    .choice-indicator.square::after {
+      border-radius: 3px;
+    }
+
+    .choice-option.selected .choice-indicator {
+      border-color: var(--accent);
+      background: var(--accent);
+    }
+    .choice-option.selected .choice-indicator::after {
+      background: #ffffff;
+    }
+
+    .choice-text {
+      flex: 1;
+    }
+    .choice-label {
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--text-primary);
+      line-height: 1.3;
+    }
+    .choice-sublabel {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .choice-option.selected .choice-label {
+      color: var(--accent-dark);
+    }
+
+    /* ── Severity pills (under radio) ─────────────────────── */
+    .severity-badge {
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 9px;
+      border-radius: 20px;
+      flex-shrink: 0;
+    }
+    .severity-badge.low    { background: var(--success-light);  color: var(--success); }
+    .severity-badge.medium { background: var(--warning-light);  color: var(--warning); }
+    .severity-badge.high   { background: var(--danger-light);   color: var(--danger);  }
+    .severity-badge.none   { background: var(--bg-input);       color: var(--text-muted); }
+
+    /* ── Textarea ──────────────────────────────────────────── */
+    .textarea-wrap {
+      margin-top: 14px;
+    }
+    .textarea-label {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+      display: block;
+    }
+    textarea {
+      width: 100%;
+      padding: 14px 16px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      font-family: var(--font-body);
+      font-size: 14px;
+      color: var(--text-primary);
+      resize: none;
+      line-height: 1.5;
+      outline: none;
+      transition: border-color 0.2s;
+      -webkit-appearance: none;
+    }
+    textarea:focus {
+      border-color: var(--accent);
+    }
+    textarea::placeholder { color: var(--text-muted); }
+
+    /* ── Divider label ─────────────────────────────────────── */
+    .divider-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      padding: 10px 18px 6px;
+      background: var(--bg-input);
+      border-bottom: 1px solid var(--border);
+    }
+
+    /* ── Navigation Buttons ────────────────────────────────── */
+    .nav-buttons {
+      display: flex;
+      gap: 10px;
+      margin: 24px 16px 0;
+    }
+    .btn {
+      flex: 1;
+      padding: 16px;
+      border: none;
+      border-radius: var(--radius-md);
+      font-family: var(--font-body);
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      outline: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .btn-back {
+      flex: 0 0 72px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      color: var(--text-secondary);
+    }
+    .btn-back:active { background: var(--bg-input); }
+
+    .btn-next {
+      background: var(--accent);
+      color: #ffffff;
+      box-shadow: var(--shadow-btn);
+    }
+    .btn-next:active { background: var(--accent-dark); }
+    .btn-next:disabled {
+      background: var(--border);
+      color: var(--text-muted);
+      box-shadow: none;
+    }
+
+    .btn-submit {
+      background: var(--accent);
+      color: #ffffff;
+      box-shadow: var(--shadow-btn);
+      position: relative;
+      overflow: hidden;
+    }
+    .btn-submit:active { background: var(--accent-dark); }
+    .btn-submit.loading { pointer-events: none; opacity: 0.8; }
+
+    /* ── Spinner ───────────────────────────────────────────── */
+    .spinner {
+      display: inline-block;
+      width: 16px; height: 16px;
+      border: 2px solid rgba(255,255,255,0.4);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+      vertical-align: middle;
+      margin-right: 8px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── Success Screen ────────────────────────────────────── */
+    #screen-success {
+      display: none;
+      padding: 60px 24px;
+      text-align: center;
+    }
+    #screen-success.visible { display: block; }
+    .success-icon {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      background: var(--accent-light);
+      border: 3px solid var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 24px;
+    }
+    .success-icon svg { color: var(--accent); }
+    .success-title {
+      font-family: var(--font-display);
+      font-size: 26px;
+      color: var(--text-primary);
+      margin-bottom: 12px;
+    }
+    .success-msg {
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      max-width: 280px;
+      margin: 0 auto;
+    }
+
+    /* ── Error banner ──────────────────────────────────────── */
+    .error-banner {
+      margin: 12px 16px 0;
+      padding: 12px 16px;
+      background: var(--danger-light);
+      border: 1px solid rgba(192,57,43,0.2);
+      border-radius: var(--radius-md);
+      font-size: 13px;
+      color: var(--danger);
+      display: none;
+    }
+    .error-banner.visible { display: block; }
+
+    /* ── Loading Screen ────────────────────────────────────── */
+    #screen-loading {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 60vh;
+      gap: 16px;
+    }
+    #screen-loading .spinner {
+      width: 32px; height: 32px;
+      border-width: 3px;
+      border-color: var(--border);
+      border-top-color: var(--accent);
+      margin: 0;
+    }
+    #screen-loading p {
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+
+    /* ── Form container ────────────────────────────────────── */
+    #screen-form { display: none; }
+    #screen-form.visible { display: block; }
+
+    /* ── Safe area bottom ──────────────────────────────────── */
+    .safe-bottom { height: env(safe-area-inset-bottom, 20px); }
+
+    /* ── Fade animation ────────────────────────────────────── */
+    @keyframes fadeSlideUp {
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .section.active {
+      animation: fadeSlideUp 0.25s ease;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── Loading ────────────────────────────────────────────── -->
+<div id="screen-loading">
+  <div class="spinner" style="border-color:var(--border);border-top-color:var(--accent)"></div>
+  <p>Chargement du dossier...</p>
+</div>
+
+<!-- ── Error ──────────────────────────────────────────────── -->
+<div id="screen-error" style="display:none; padding:40px 24px; text-align:center;">
+  <p style="font-family:var(--font-display);font-size:22px;color:var(--text-primary);margin-bottom:10px;">Dossier introuvable</p>
+  <p style="font-size:14px;color:var(--text-muted);">Le lien est invalide ou expiré. Veuillez scanner à nouveau le QR code.</p>
+</div>
+
+<!-- ── Main Form ───────────────────────────────────────────── -->
+<div id="screen-form">
+
+  <!-- Header -->
+  <div class="header">
+    <div class="header-institution">Registre du Cancer</div>
+    <div class="header-title">Questionnaire<br>de santé</div>
+    <div class="header-subtitle">Informations confidentielles</div>
+  </div>
+
+  <!-- Patient Info -->
+  <div class="patient-card">
+    <div class="patient-avatar" id="patient-initials">—</div>
+    <div>
+      <div class="patient-name" id="patient-name">—</div>
+      <div class="patient-meta" id="patient-meta">—</div>
+      <div class="patient-reg" id="patient-reg">—</div>
+    </div>
+  </div>
+
+  <!-- Progress -->
+  <div class="progress-wrap">
+    <div class="progress-label">
+      <span id="progress-text">Section 1 sur 5</span>
+      <span id="progress-pct">0%</span>
+    </div>
+    <div class="progress-bar-bg">
+      <div class="progress-bar-fill" id="progress-fill" style="width:0%"></div>
+    </div>
+  </div>
+
+  <!-- Error banner -->
+  <div class="error-banner" id="error-banner">Une erreur est survenue. Vérifiez votre connexion et réessayez.</div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       SECTION 1 — Tabagisme
+  ════════════════════════════════════════════════════════ -->
+  <div class="section active" id="section-1">
+    <div class="section-header">
+      <div class="section-number">Section 1 / 5</div>
+      <div class="section-title">Tabagisme</div>
+      <div class="section-desc">Avez-vous déjà consommé ou consommez-vous du tabac ?</div>
+    </div>
+
+    <div class="card choice-group" id="group-tabagisme">
+      <label class="choice-option" data-value="non">
+        <input type="radio" name="tabagisme" value="non" />
+        <div class="choice-indicator"></div>
+        <div class="choice-text">
+          <div class="choice-label">Non-fumeur</div>
+          <div class="choice-sublabel">Je n'ai jamais fumé</div>
+        </div>
+        <span class="severity-badge low">Faible risque</span>
+      </label>
+      <label class="choice-option" data-value="ex">
+        <input type="radio" name="tabagisme" value="ex" />
+        <div class="choice-indicator"></div>
+        <div class="choice-text">
+          <div class="choice-label">Ex-fumeur</div>
+          <div class="choice-sublabel">J'ai arrêté de fumer</div>
+        </div>
+        <span class="severity-badge medium">Risque modéré</span>
+      </label>
+      <label class="choice-option" data-value="actif">
+        <input type="radio" name="tabagisme" value="actif" />
+        <div class="choice-indicator"></div>
+        <div class="choice-text">
+          <div class="choice-label">Fumeur actif</div>
+          <div class="choice-sublabel">Je fume actuellement</div>
+        </div>
+        <span class="severity-badge high">Risque élevé</span>
+      </label>
+      <label class="choice-option" data-value="inconnu">
+        <input type="radio" name="tabagisme" value="inconnu" />
+        <div class="choice-indicator"></div>
+        <div class="choice-text">
+          <div class="choice-label">Je préfère ne pas répondre</div>
+        </div>
+        <span class="severity-badge none">—</span>
+      </label>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       SECTION 2 — Alcool
+  ════════════════════════════════════════════════════════ -->
+  <div class="section" id="section-2">
+    <div class="section-header">
+      <div class="section-number">Section 2 / 5</div>
+      <div class="section-title">Consommation d'alcool</div>
+      <div class="section-desc">Consommez-vous des boissons alcoolisées ?</div>
+    </div>
+
+    <div class="card choice-group" id="group-alcool">
+      <label class="choice-option" data-value="non">
+        <input type="radio" name="alcool" value="non" />
+        <div class="choice-indicator"></div>
+        <div class="choice-text">
+          <div class="choice-label">Non</div>
+          <div class="choice-sublabel">Je ne consomme pas d'alcool</div>
+        </div>
+        <span class="severity-badge low">Faible risque</span>
+      </label>
+      <label class="choice-option" data-value="oui">
+        <input type="radio" name="alcool" value="oui" />
+        <div class="choice-indicator"></div>
+        <div class="choice-text">
+          <div class="choice-label">Oui</div>
+          <div class="choice-sublabel">De manière occasionnelle ou régulière</div>
+        </div>
+        <span class="severity-badge high">Risque élevé</span>
+      </label>
+      <label class="choice-option" data-value="inconnu">
+        <input type="radio" name="alcool" value="inconnu" />
+        <div class="choice-indicator"></div>
+        <div class="choice-text">
+          <div class="choice-label">Je préfère ne pas répondre</div>
+        </div>
+        <span class="severity-badge none">—</span>
+      </label>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       SECTION 3 — Activité physique
+  ════════════════════════════════════════════════════════ -->
+  <div class="section" id="section-3">
+    <div class="section-header">
+      <div class="section-number">Section 3 / 5</div>
+      <div class="section-title">Activité physique</div>
+      <div class="section-desc">Comment décrivez-vous votre niveau d'activité physique au quotidien ?</div>
+    </div>
+
+    <div class="card choice-group" id="group-activite_physique">
+      <label class="choice-option" data-value="active">
+        <input type="radio" name="activite_physique" value="active" />
+        <div class="choice-indicator"></div>
+        <div class="choice-text">
+          <div class="choice-label">Actif</div>
+          <div class="choice-sublabel">Sport régulier, marche quotidienne importante</div>
+        </div>
+        <span class="severity-badge low">Faible risque</span>
+      </label>
+      <label class="choice-option" data-value="moderee">
+        <input type="radio" name="activite_physique" value="moderee" />
+        <div class="choice-indicator"></div>
+        <div class="choice-text">
+          <div class="choice-label">Modéré</div>
+          <div class="choice-sublabel">Quelques sorties par semaine</div>
+        </div>
+        <span class="severity-badge medium">Modéré</span>
+      </label>
+      <label class="choice-option" data-value="sedentaire">
+        <input type="radio" name="activite_physique" value="sedentaire" />
+        <div class="choice-indicator"></div>
+        <div class="choice-text">
+          <div class="choice-label">Sédentaire</div>
+          <div class="choice-sublabel">Peu ou pas d'activité physique</div>
+        </div>
+        <span class="severity-badge high">Risque élevé</span>
+      </label>
+      <label class="choice-option" data-value="inconnu">
+        <input type="radio" name="activite_physique" value="inconnu" />
+        <div class="choice-indicator"></div>
+        <div class="choice-text">
+          <div class="choice-label">Je préfère ne pas répondre</div>
+        </div>
+        <span class="severity-badge none">—</span>
+      </label>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       SECTION 4 — Alimentation
+  ════════════════════════════════════════════════════════ -->
+  <div class="section" id="section-4">
+    <div class="section-header">
+      <div class="section-number">Section 4 / 5</div>
+      <div class="section-title">Alimentation</div>
+      <div class="section-desc">Comment décrivez-vous votre régime alimentaire habituel ?</div>
+    </div>
+
+    <div class="card choice-group" id="group-alimentation">
+      <label class="choice-option" data-value="equilibree">
+        <input type="radio" name="alimentation" value="equilibree" />
+        <div class="choice-indicator"></div>
+        <div class="choice-text">
+          <div class="choice-label">Équilibrée</div>
+          <div class="choice-sublabel">Fruits, légumes, viandes et céréales variés</div>
+        </div>
+        <span class="severity-badge low">Faible risque</span>
+      </label>
+      <label class="choice-option" data-value="grasse">
+        <input type="radio" name="alimentation" value="grasse" />
+        <div class="choice-indicator"></div>
+        <div class="choice-text">
+          <div class="choice-label">Riche en graisses</div>
+          <div class="choice-sublabel">Fritures, viandes grasses fréquentes</div>
+        </div>
+        <span class="severity-badge medium">Risque modéré</span>
+      </label>
+      <label class="choice-option" data-value="sucree">
+        <input type="radio" name="alimentation" value="sucree" />
+        <div class="choice-indicator"></div>
+        <div class="choice-text">
+          <div class="choice-label">Riche en sucres</div>
+          <div class="choice-sublabel">Sucreries, boissons sucrées fréquentes</div>
+        </div>
+        <span class="severity-badge medium">Risque modéré</span>
+      </label>
+      <label class="choice-option" data-value="vegetarienne">
+        <input type="radio" name="alimentation" value="vegetarienne" />
+        <div class="choice-indicator"></div>
+        <div class="choice-text">
+          <div class="choice-label">Végétarienne / Végane</div>
+          <div class="choice-sublabel">Sans viande ni produits animaux</div>
+        </div>
+        <span class="severity-badge low">Faible risque</span>
+      </label>
+      <label class="choice-option" data-value="inconnu">
+        <input type="radio" name="alimentation" value="inconnu" />
+        <div class="choice-indicator"></div>
+        <div class="choice-text">
+          <div class="choice-label">Je préfère ne pas répondre</div>
+        </div>
+        <span class="severity-badge none">—</span>
+      </label>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       SECTION 5 — Antécédents familiaux
+  ════════════════════════════════════════════════════════ -->
+  <div class="section" id="section-5">
+    <div class="section-header">
+      <div class="section-number">Section 5 / 5</div>
+      <div class="section-title">Antécédents familiaux</div>
+      <div class="section-desc">Des membres de votre famille proche (parents, frères, soeurs, enfants) ont-ils été atteints par l'une des pathologies suivantes ?</div>
+    </div>
+
+    <div class="card choice-group" id="group-antecedents">
+      <div class="divider-label">Cancers</div>
+      <label class="choice-option checkbox-option" data-value="cancer_sein">
+        <input type="checkbox" name="antecedents_fam[]" value="cancer_sein" />
+        <div class="choice-indicator square"></div>
+        <div class="choice-text">
+          <div class="choice-label">Cancer du sein</div>
+        </div>
+      </label>
+      <label class="choice-option checkbox-option" data-value="cancer_colorectal">
+        <input type="checkbox" name="antecedents_fam[]" value="cancer_colorectal" />
+        <div class="choice-indicator square"></div>
+        <div class="choice-text">
+          <div class="choice-label">Cancer colorectal</div>
+        </div>
+      </label>
+      <label class="choice-option checkbox-option" data-value="cancer_col_uterus">
+        <input type="checkbox" name="antecedents_fam[]" value="cancer_col_uterus" />
+        <div class="choice-indicator square"></div>
+        <div class="choice-text">
+          <div class="choice-label">Cancer du col de l'utérus</div>
+        </div>
+      </label>
+      <label class="choice-option checkbox-option" data-value="cancer_estomac">
+        <input type="checkbox" name="antecedents_fam[]" value="cancer_estomac" />
+        <div class="choice-indicator square"></div>
+        <div class="choice-text">
+          <div class="choice-label">Cancer de l'estomac</div>
+        </div>
+      </label>
+      <label class="choice-option checkbox-option" data-value="cancer_poumon">
+        <input type="checkbox" name="antecedents_fam[]" value="cancer_poumon" />
+        <div class="choice-indicator square"></div>
+        <div class="choice-text">
+          <div class="choice-label">Cancer du poumon</div>
+        </div>
+      </label>
+      <label class="choice-option checkbox-option" data-value="cancer_foie">
+        <input type="checkbox" name="antecedents_fam[]" value="cancer_foie" />
+        <div class="choice-indicator square"></div>
+        <div class="choice-text">
+          <div class="choice-label">Cancer du foie</div>
+        </div>
+      </label>
+      <label class="choice-option checkbox-option" data-value="cancer_prostate">
+        <input type="checkbox" name="antecedents_fam[]" value="cancer_prostate" />
+        <div class="choice-indicator square"></div>
+        <div class="choice-text">
+          <div class="choice-label">Cancer de la prostate</div>
+        </div>
+      </label>
+      <label class="choice-option checkbox-option" data-value="cancer_autre">
+        <input type="checkbox" name="antecedents_fam[]" value="cancer_autre" />
+        <div class="choice-indicator square"></div>
+        <div class="choice-text">
+          <div class="choice-label">Autre cancer</div>
+        </div>
+      </label>
+
+      <div class="divider-label">Autres maladies</div>
+      <label class="choice-option checkbox-option" data-value="diabete">
+        <input type="checkbox" name="antecedents_fam[]" value="diabete" />
+        <div class="choice-indicator square"></div>
+        <div class="choice-text">
+          <div class="choice-label">Diabète</div>
+        </div>
+      </label>
+      <label class="choice-option checkbox-option" data-value="maladies_cardiaques">
+        <input type="checkbox" name="antecedents_fam[]" value="maladies_cardiaques" />
+        <div class="choice-indicator square"></div>
+        <div class="choice-text">
+          <div class="choice-label">Maladies cardiaques</div>
+        </div>
+      </label>
+      <label class="choice-option checkbox-option" data-value="hypertension">
+        <input type="checkbox" name="antecedents_fam[]" value="hypertension" />
+        <div class="choice-indicator square"></div>
+        <div class="choice-text">
+          <div class="choice-label">Hypertension artérielle</div>
+        </div>
+      </label>
+      <label class="choice-option checkbox-option" data-value="aucun">
+        <input type="checkbox" name="antecedents_fam[]" value="aucun" />
+        <div class="choice-indicator square"></div>
+        <div class="choice-text">
+          <div class="choice-label">Aucun antécédent connu</div>
+        </div>
+      </label>
+    </div>
+
+    <!-- Commentaire libre -->
+    <div class="textarea-wrap">
+      <label class="textarea-label" for="antecedents-texte">Précisions complémentaires (facultatif)</label>
+      <textarea id="antecedents-texte" rows="4"
+        placeholder="Lien de parenté, âge au diagnostic, autre information utile..."></textarea>
+    </div>
+  </div>
+
+  <!-- Nav buttons -->
+  <div class="nav-buttons" id="nav-buttons">
+    <button class="btn btn-back" id="btn-back" style="display:none" onclick="prevSection()">Retour</button>
+    <button class="btn btn-next" id="btn-next" onclick="nextSection()">Continuer</button>
+  </div>
+
+  <div class="safe-bottom"></div>
+</div><!-- /screen-form -->
+
+<!-- ── Success ─────────────────────────────────────────────── -->
+<div id="screen-success">
+  <div class="success-icon">
+    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="20 6 9 17 4 12"/>
+    </svg>
+  </div>
+  <div class="success-title">Merci pour vos réponses</div>
+  <p class="success-msg">Votre questionnaire a bien été transmis. Votre médecin pourra consulter ces informations dans votre dossier médical.</p>
+</div>
+
+<!-- ═════════════════════════════════════════════════════════
+     JavaScript
+════════════════════════════════════════════════════════ -->
+<script>
+// ── Configuration ─────────────────────────────────────────
+// Remplacer par l'URL de votre API Django en production
+const API_BASE_URL = 'https://votre-api.com';
+// Si hébergé sur le même serveur que Django :
+// const API_BASE_URL = '';
+
+const TOTAL_SECTIONS = 5;
+
+// ── État ──────────────────────────────────────────────────
+let currentSection = 1;
+let patientId      = null;
+let patientData    = null;
+
+// ── Initialisation ────────────────────────────────────────
+window.addEventListener('DOMContentLoaded', () => {
+  const params = new URLSearchParams(window.location.search);
+  patientId    = getPatientIdFromPath() || params.get('id');
+
+  if (!patientId) {
+    showError();
+    return;
+  }
+
+  loadPatient(patientId);
+  initChoiceGroups();
+});
+
+function getPatientIdFromPath() {
+  // Supporte /patient/42 ou /patient/42?ref=...
+  const match = window.location.pathname.match(/\/patient\/(\d+)/);
+  return match ? match[1] : null;
+}
+
+// ── Chargement du patient ─────────────────────────────────
+async function loadPatient(id) {
+  try {
+    const res = await fetch(`${API_BASE_URL}/api/patients/${id}/`);
+    if (!res.ok) throw new Error('Not found');
+    patientData = await res.json();
+
+    // Pré-remplir avec les données existantes
+    prefillForm(patientData);
+    renderPatientCard(patientData);
+
+    document.getElementById('screen-loading').style.display = 'none';
+    document.getElementById('screen-form').classList.add('visible');
+    updateProgress();
+  } catch (e) {
+    showError();
+  }
+}
+
+function renderPatientCard(p) {
+  const initials = `${(p.nom || '')[0] || ''}${(p.prenom || '')[0] || ''}`.toUpperCase();
+  document.getElementById('patient-initials').textContent = initials || '?';
+  document.getElementById('patient-name').textContent     = `${p.nom} ${p.prenom}`;
+  document.getElementById('patient-meta').textContent     =
+    [p.age ? `${p.age} ans` : null, p.wilaya].filter(Boolean).join(' · ') || '—';
+  document.getElementById('patient-reg').textContent      = p.registration_number || '';
+}
+
+function prefillForm(p) {
+  // Radio : tabagisme, alcool, activite_physique, alimentation
+  ['tabagisme', 'alcool', 'activite_physique', 'alimentation'].forEach(field => {
+    const val = p[field];
+    if (!val || val === 'inconnu') return;
+    const input = document.querySelector(`input[name="${field}"][value="${val}"]`);
+    if (input) {
+      input.checked = true;
+      input.closest('.choice-option').classList.add('selected');
+    }
+  });
+
+  // Checkboxes antécédents familiaux
+  const texteActuel = p.antecedents_familiaux || '';
+  // Tenter de parser les cases cochées depuis le texte sauvegardé
+  // Format attendu : "cancer_sein|cancer_colorectal|diabete||Précision libre..."
+  if (texteActuel.includes('|')) {
+    const parts    = texteActuel.split('||');
+    const coches   = (parts[0] || '').split('|').filter(Boolean);
+    const commentaire = parts[1] || '';
+    coches.forEach(val => {
+      const input = document.querySelector(`input[name="antecedents_fam[]"][value="${val}"]`);
+      if (input) {
+        input.checked = true;
+        input.closest('.choice-option').classList.add('selected');
+      }
+    });
+    document.getElementById('antecedents-texte').value = commentaire;
+  } else if (texteActuel) {
+    document.getElementById('antecedents-texte').value = texteActuel;
+  }
+}
+
+// ── Init interactions choix ───────────────────────────────
+function initChoiceGroups() {
+  // Radio buttons
+  document.querySelectorAll('.choice-group:not(#group-antecedents) .choice-option').forEach(opt => {
+    opt.addEventListener('click', () => {
+      const input = opt.querySelector('input[type="radio"]');
+      if (!input) return;
+      // Déselectionner tous dans le groupe
+      const group = opt.closest('.choice-group');
+      group.querySelectorAll('.choice-option').forEach(o => o.classList.remove('selected'));
+      // Sélectionner celui-ci
+      input.checked = true;
+      opt.classList.add('selected');
+    });
+  });
+
+  // Checkboxes
+  document.querySelectorAll('.checkbox-option').forEach(opt => {
+    opt.addEventListener('click', e => {
+      if (e.target.tagName === 'INPUT') return; // laisser le comportement natif
+      const input = opt.querySelector('input[type="checkbox"]');
+      input.checked = !input.checked;
+      opt.classList.toggle('selected', input.checked);
+
+      // Si "Aucun" coché → décocher les autres
+      if (input.value === 'aucun' && input.checked) {
+        document.querySelectorAll('.checkbox-option').forEach(o => {
+          const inp = o.querySelector('input');
+          if (inp.value !== 'aucun') {
+            inp.checked = false;
+            o.classList.remove('selected');
+          }
+        });
+      } else if (input.checked) {
+        // Décocher "Aucun" si on coche autre chose
+        const aucunInput = document.querySelector('input[value="aucun"]');
+        if (aucunInput) {
+          aucunInput.checked = false;
+          aucunInput.closest('.choice-option').classList.remove('selected');
+        }
+      }
+    });
+  });
+
+  // Sync native checkbox change
+  document.querySelectorAll('input[type="checkbox"]').forEach(inp => {
+    inp.addEventListener('change', () => {
+      inp.closest('.choice-option').classList.toggle('selected', inp.checked);
+    });
+  });
+}
+
+// ── Navigation ────────────────────────────────────────────
+function updateProgress() {
+  const pct = Math.round(((currentSection - 1) / TOTAL_SECTIONS) * 100);
+  document.getElementById('progress-text').textContent = `Section ${currentSection} sur ${TOTAL_SECTIONS}`;
+  document.getElementById('progress-pct').textContent  = `${pct}%`;
+  document.getElementById('progress-fill').style.width = `${pct}%`;
+
+  document.getElementById('btn-back').style.display = currentSection > 1 ? 'block' : 'none';
+  const btnNext = document.getElementById('btn-next');
+  if (currentSection === TOTAL_SECTIONS) {
+    btnNext.textContent = 'Envoyer mes réponses';
+    btnNext.classList.add('btn-submit');
+    btnNext.classList.remove('btn-next');
+    btnNext.onclick = submitForm;
+  } else {
+    btnNext.textContent = 'Continuer';
+    btnNext.classList.remove('btn-submit');
+    btnNext.classList.add('btn-next');
+    btnNext.onclick = nextSection;
+  }
+}
+
+function showSection(n) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.getElementById(`section-${n}`).classList.add('active');
+  currentSection = n;
+  updateProgress();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function nextSection() {
+  if (currentSection < TOTAL_SECTIONS) showSection(currentSection + 1);
+}
+
+function prevSection() {
+  if (currentSection > 1) showSection(currentSection - 1);
+}
+
+// ── Collecte des données ──────────────────────────────────
+function collectFormData() {
+  const get = (name) => {
+    const el = document.querySelector(`input[name="${name}"]:checked`);
+    return el ? el.value : 'inconnu';
+  };
+
+  // Antécédents familiaux (checkboxes)
+  const cochees = Array.from(
+    document.querySelectorAll('input[name="antecedents_fam[]"]:checked')
+  ).map(i => i.value);
+  const commentaire = document.getElementById('antecedents-texte').value.trim();
+
+  // Format de stockage : "val1|val2|val3||commentaire libre"
+  const antecedentsFamiliaux = cochees.length
+    ? `${cochees.join('|')}||${commentaire}`
+    : commentaire;
+
+  return {
+    tabagisme:          get('tabagisme'),
+    alcool:             get('alcool'),
+    activite_physique:  get('activite_physique'),
+    alimentation:       get('alimentation'),
+    antecedents_familiaux: antecedentsFamiliaux,
+  };
+}
+
+// ── Soumission ────────────────────────────────────────────
+async function submitForm() {
+  const btnNext = document.getElementById('btn-next');
+  btnNext.disabled = true;
+  btnNext.innerHTML = '<span class="spinner"></span>Envoi en cours...';
+  hideError();
+
+  const payload = collectFormData();
+
+  try {
+    const res = await fetch(`${API_BASE_URL}/api/patients/${patientId}/habitudes/`, {
+      method:  'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body:    JSON.stringify(payload),
+    });
+
+    if (!res.ok) {
+      const body = await res.json().catch(() => ({}));
+      throw new Error(body.detail || `Erreur ${res.status}`);
+    }
+
+    // Succès
+    document.getElementById('screen-form').style.display    = 'none';
+    document.getElementById('screen-success').classList.add('visible');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+  } catch (err) {
+    console.error(err);
+    showErrorBanner(err.message || 'Erreur réseau. Vérifiez votre connexion.');
+    btnNext.disabled  = false;
+    btnNext.innerHTML = 'Envoyer mes réponses';
+  }
+}
+
+// ── Helpers ───────────────────────────────────────────────
+function showError() {
+  document.getElementById('screen-loading').style.display = 'none';
+  document.getElementById('screen-error').style.display   = 'block';
+}
+function showErrorBanner(msg) {
+  const el = document.getElementById('error-banner');
+  el.textContent = msg;
+  el.classList.add('visible');
+  el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+function hideError() {
+  document.getElementById('error-banner').classList.remove('visible');
+}
+</script>
+</body>
+</html>
