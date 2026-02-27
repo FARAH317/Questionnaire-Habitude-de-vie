@@ -859,7 +859,9 @@
 <script>
 // ── Configuration ─────────────────────────────────────────
 // Remplacer par l'URL de votre API Django en production
-const API_BASE_URL = 'https://devona-copasetic-chieko.ngrok-free.dev';
+// API_BASE_URL = adresse de votre serveur Django
+// C'est l'URL que votre frontend React utilise aussi (VITE_API_URL sans /api/v1)
+const API_BASE_URL = 'http://localhost:8000';  // ← A CHANGER avec votre URL Django en production
 // Si hébergé sur le même serveur que Django :
 // const API_BASE_URL = '';
 
@@ -893,7 +895,9 @@ function getPatientIdFromPath() {
 // ── Chargement du patient ─────────────────────────────────
 async function loadPatient(id) {
   try {
-    const res = await fetch(`${API_BASE_URL}/api/patients/${id}/`);
+    const res = await fetch(`${API_BASE_URL}/api/patients/${id}/`, {
+      headers: { 'ngrok-skip-browser-warning': '1' }
+    });
     if (!res.ok) throw new Error('Not found');
     patientData = await res.json();
 
@@ -1080,7 +1084,7 @@ async function submitForm() {
   try {
     const res = await fetch(`${API_BASE_URL}/api/patients/${patientId}/habitudes/`, {
       method:  'PATCH',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', 'ngrok-skip-browser-warning': '1' },
       body:    JSON.stringify(payload),
     });
 
