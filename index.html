@@ -861,9 +861,10 @@
 // Remplacer par l'URL de votre API Django en production
 // API_BASE_URL = adresse de votre serveur Django
 // C'est l'URL que votre frontend React utilise aussi (VITE_API_URL sans /api/v1)
-const API_BASE_URL = ' https://devona-copasetic-chieko.ngrok-free.dev'; // ← A CHANGER avec votre URL Django en production
-// Si hébergé sur le même serveur que Django :
-// const API_BASE_URL = '';
+// Public config (injected at runtime in the browser).
+// For static hosting, you can set window.__API_BASE_URL__ in vercel.json rewrites/build, or
+// add a small <script> before this file if you reuse it elsewhere.
+const API_BASE_URL = window.__API_BASE_URL__ || 'https://rnc-registre-nationale-de-cancer-1.onrender.com';
 
 const TOTAL_SECTIONS = 5;
 
