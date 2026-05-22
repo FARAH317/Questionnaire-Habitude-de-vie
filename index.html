@@ -7,7 +7,6 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Serif+Display&display=swap" rel="stylesheet" />
   <style>
-    /* ── Reset & Variables ─────────────────────────────────── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
@@ -53,7 +52,6 @@
       padding-bottom: 40px;
     }
 
-    /* ── Header ────────────────────────────────────────────── */
     .header {
       background: var(--accent);
       padding: 28px 20px 24px;
@@ -89,7 +87,6 @@
       color: rgba(255,255,255,0.7);
     }
 
-    /* ── Patient Info Card ─────────────────────────────────── */
     .patient-card {
       margin: 20px 16px 0;
       background: var(--bg-card);
@@ -138,7 +135,6 @@
       margin-top: 4px;
     }
 
-    /* ── Progress Bar ──────────────────────────────────────── */
     .progress-wrap {
       margin: 20px 16px 0;
     }
@@ -162,7 +158,6 @@
       transition: width 0.4s ease;
     }
 
-    /* ── Section ───────────────────────────────────────────── */
     .section {
       margin: 20px 16px 0;
       display: none;
@@ -193,7 +188,6 @@
       line-height: 1.5;
     }
 
-    /* ── Card ──────────────────────────────────────────────── */
     .card {
       background: var(--bg-card);
       border-radius: var(--radius-lg);
@@ -201,9 +195,6 @@
       box-shadow: var(--shadow-card);
       overflow: hidden;
     }
-
-    /* ── Choice Options ────────────────────────────────────── */
-    .choice-group { }
 
     .choice-option {
       display: flex;
@@ -260,9 +251,7 @@
       background: #ffffff;
     }
 
-    .choice-text {
-      flex: 1;
-    }
+    .choice-text { flex: 1; }
     .choice-label {
       font-size: 15px;
       font-weight: 500;
@@ -274,12 +263,8 @@
       color: var(--text-muted);
       margin-top: 2px;
     }
+    .choice-option.selected .choice-label { color: var(--accent-dark); }
 
-    .choice-option.selected .choice-label {
-      color: var(--accent-dark);
-    }
-
-    /* ── Severity pills (under radio) ─────────────────────── */
     .severity-badge {
       font-size: 11px;
       font-weight: 600;
@@ -292,10 +277,7 @@
     .severity-badge.high   { background: var(--danger-light);   color: var(--danger);  }
     .severity-badge.none   { background: var(--bg-input);       color: var(--text-muted); }
 
-    /* ── Textarea ──────────────────────────────────────────── */
-    .textarea-wrap {
-      margin-top: 14px;
-    }
+    .textarea-wrap { margin-top: 14px; }
     .textarea-label {
       font-size: 12px;
       font-weight: 500;
@@ -318,12 +300,9 @@
       transition: border-color 0.2s;
       -webkit-appearance: none;
     }
-    textarea:focus {
-      border-color: var(--accent);
-    }
+    textarea:focus { border-color: var(--accent); }
     textarea::placeholder { color: var(--text-muted); }
 
-    /* ── Divider label ─────────────────────────────────────── */
     .divider-label {
       font-size: 11px;
       font-weight: 600;
@@ -335,7 +314,6 @@
       border-bottom: 1px solid var(--border);
     }
 
-    /* ── Navigation Buttons ────────────────────────────────── */
     .nav-buttons {
       display: flex;
       gap: 10px;
@@ -361,7 +339,6 @@
       color: var(--text-secondary);
     }
     .btn-back:active { background: var(--bg-input); }
-
     .btn-next {
       background: var(--accent);
       color: #ffffff;
@@ -373,7 +350,6 @@
       color: var(--text-muted);
       box-shadow: none;
     }
-
     .btn-submit {
       background: var(--accent);
       color: #ffffff;
@@ -384,7 +360,6 @@
     .btn-submit:active { background: var(--accent-dark); }
     .btn-submit.loading { pointer-events: none; opacity: 0.8; }
 
-    /* ── Spinner ───────────────────────────────────────────── */
     .spinner {
       display: inline-block;
       width: 16px; height: 16px;
@@ -397,7 +372,6 @@
     }
     @keyframes spin { to { transform: rotate(360deg); } }
 
-    /* ── Success Screen ────────────────────────────────────── */
     #screen-success {
       display: none;
       padding: 60px 24px;
@@ -430,7 +404,6 @@
       margin: 0 auto;
     }
 
-    /* ── Error banner ──────────────────────────────────────── */
     .error-banner {
       margin: 12px 16px 0;
       padding: 12px 16px;
@@ -443,7 +416,6 @@
     }
     .error-banner.visible { display: block; }
 
-    /* ── Loading Screen ────────────────────────────────────── */
     #screen-loading {
       display: flex;
       flex-direction: column;
@@ -464,48 +436,41 @@
       color: var(--text-muted);
     }
 
-    /* ── Form container ────────────────────────────────────── */
     #screen-form { display: none; }
     #screen-form.visible { display: block; }
 
-    /* ── Safe area bottom ──────────────────────────────────── */
     .safe-bottom { height: env(safe-area-inset-bottom, 20px); }
 
-    /* ── Fade animation ────────────────────────────────────── */
     @keyframes fadeSlideUp {
       from { opacity: 0; transform: translateY(12px); }
       to   { opacity: 1; transform: translateY(0); }
     }
-    .section.active {
-      animation: fadeSlideUp 0.25s ease;
-    }
+    .section.active { animation: fadeSlideUp 0.25s ease; }
   </style>
 </head>
 <body>
 
-<!-- ── Loading ────────────────────────────────────────────── -->
+<!-- Loading -->
 <div id="screen-loading">
   <div class="spinner" style="border-color:var(--border);border-top-color:var(--accent)"></div>
   <p>Chargement du dossier...</p>
 </div>
 
-<!-- ── Error ──────────────────────────────────────────────── -->
+<!-- Error -->
 <div id="screen-error" style="display:none; padding:40px 24px; text-align:center;">
   <p style="font-family:var(--font-display);font-size:22px;color:var(--text-primary);margin-bottom:10px;">Dossier introuvable</p>
   <p style="font-size:14px;color:var(--text-muted);">Le lien est invalide ou expiré. Veuillez scanner à nouveau le QR code.</p>
 </div>
 
-<!-- ── Main Form ───────────────────────────────────────────── -->
+<!-- Main Form -->
 <div id="screen-form">
 
-  <!-- Header -->
   <div class="header">
     <div class="header-institution">Registre du Cancer</div>
     <div class="header-title">Questionnaire<br>de santé</div>
     <div class="header-subtitle">Informations confidentielles</div>
   </div>
 
-  <!-- Patient Info -->
   <div class="patient-card">
     <div class="patient-avatar" id="patient-initials">—</div>
     <div>
@@ -515,7 +480,6 @@
     </div>
   </div>
 
-  <!-- Progress -->
   <div class="progress-wrap">
     <div class="progress-label">
       <span id="progress-text">Section 1 sur 5</span>
@@ -526,19 +490,15 @@
     </div>
   </div>
 
-  <!-- Error banner -->
   <div class="error-banner" id="error-banner">Une erreur est survenue. Vérifiez votre connexion et réessayez.</div>
 
-  <!-- ═══════════════════════════════════════════════════════
-       SECTION 1 — Tabagisme
-  ════════════════════════════════════════════════════════ -->
+  <!-- SECTION 1 — Tabagisme -->
   <div class="section active" id="section-1">
     <div class="section-header">
       <div class="section-number">Section 1 / 5</div>
       <div class="section-title">Tabagisme</div>
       <div class="section-desc">Avez-vous déjà consommé ou consommez-vous du tabac ?</div>
     </div>
-
     <div class="card choice-group" id="group-tabagisme">
       <label class="choice-option" data-value="non">
         <input type="radio" name="tabagisme" value="non" />
@@ -578,16 +538,13 @@
     </div>
   </div>
 
-  <!-- ═══════════════════════════════════════════════════════
-       SECTION 2 — Alcool
-  ════════════════════════════════════════════════════════ -->
+  <!-- SECTION 2 — Alcool -->
   <div class="section" id="section-2">
     <div class="section-header">
       <div class="section-number">Section 2 / 5</div>
       <div class="section-title">Consommation d'alcool</div>
       <div class="section-desc">Consommez-vous des boissons alcoolisées ?</div>
     </div>
-
     <div class="card choice-group" id="group-alcool">
       <label class="choice-option" data-value="non">
         <input type="radio" name="alcool" value="non" />
@@ -618,16 +575,13 @@
     </div>
   </div>
 
-  <!-- ═══════════════════════════════════════════════════════
-       SECTION 3 — Activité physique
-  ════════════════════════════════════════════════════════ -->
+  <!-- SECTION 3 — Activité physique -->
   <div class="section" id="section-3">
     <div class="section-header">
       <div class="section-number">Section 3 / 5</div>
       <div class="section-title">Activité physique</div>
       <div class="section-desc">Comment décrivez-vous votre niveau d'activité physique au quotidien ?</div>
     </div>
-
     <div class="card choice-group" id="group-activite_physique">
       <label class="choice-option" data-value="active">
         <input type="radio" name="activite_physique" value="active" />
@@ -667,16 +621,13 @@
     </div>
   </div>
 
-  <!-- ═══════════════════════════════════════════════════════
-       SECTION 4 — Alimentation
-  ════════════════════════════════════════════════════════ -->
+  <!-- SECTION 4 — Alimentation -->
   <div class="section" id="section-4">
     <div class="section-header">
       <div class="section-number">Section 4 / 5</div>
       <div class="section-title">Alimentation</div>
       <div class="section-desc">Comment décrivez-vous votre régime alimentaire habituel ?</div>
     </div>
-
     <div class="card choice-group" id="group-alimentation">
       <label class="choice-option" data-value="equilibree">
         <input type="radio" name="alimentation" value="equilibree" />
@@ -725,107 +676,78 @@
     </div>
   </div>
 
-  <!-- ═══════════════════════════════════════════════════════
-       SECTION 5 — Antécédents familiaux
-  ════════════════════════════════════════════════════════ -->
+  <!-- SECTION 5 — Antécédents familiaux -->
   <div class="section" id="section-5">
     <div class="section-header">
       <div class="section-number">Section 5 / 5</div>
       <div class="section-title">Antécédents familiaux</div>
-      <div class="section-desc">Des membres de votre famille proche (parents, frères, soeurs, enfants) ont-ils été atteints par l'une des pathologies suivantes ?</div>
+      <div class="section-desc">Des membres de votre famille proche (parents, frères, sœurs, enfants) ont-ils été atteints par l'une des pathologies suivantes ?</div>
     </div>
-
     <div class="card choice-group" id="group-antecedents">
       <div class="divider-label">Cancers</div>
       <label class="choice-option checkbox-option" data-value="cancer_sein">
         <input type="checkbox" name="antecedents_fam[]" value="cancer_sein" />
         <div class="choice-indicator square"></div>
-        <div class="choice-text">
-          <div class="choice-label">Cancer du sein</div>
-        </div>
+        <div class="choice-text"><div class="choice-label">Cancer du sein</div></div>
       </label>
       <label class="choice-option checkbox-option" data-value="cancer_colorectal">
         <input type="checkbox" name="antecedents_fam[]" value="cancer_colorectal" />
         <div class="choice-indicator square"></div>
-        <div class="choice-text">
-          <div class="choice-label">Cancer colorectal</div>
-        </div>
+        <div class="choice-text"><div class="choice-label">Cancer colorectal</div></div>
       </label>
       <label class="choice-option checkbox-option" data-value="cancer_col_uterus">
         <input type="checkbox" name="antecedents_fam[]" value="cancer_col_uterus" />
         <div class="choice-indicator square"></div>
-        <div class="choice-text">
-          <div class="choice-label">Cancer du col de l'utérus</div>
-        </div>
+        <div class="choice-text"><div class="choice-label">Cancer du col de l'utérus</div></div>
       </label>
       <label class="choice-option checkbox-option" data-value="cancer_estomac">
         <input type="checkbox" name="antecedents_fam[]" value="cancer_estomac" />
         <div class="choice-indicator square"></div>
-        <div class="choice-text">
-          <div class="choice-label">Cancer de l'estomac</div>
-        </div>
+        <div class="choice-text"><div class="choice-label">Cancer de l'estomac</div></div>
       </label>
       <label class="choice-option checkbox-option" data-value="cancer_poumon">
         <input type="checkbox" name="antecedents_fam[]" value="cancer_poumon" />
         <div class="choice-indicator square"></div>
-        <div class="choice-text">
-          <div class="choice-label">Cancer du poumon</div>
-        </div>
+        <div class="choice-text"><div class="choice-label">Cancer du poumon</div></div>
       </label>
       <label class="choice-option checkbox-option" data-value="cancer_foie">
         <input type="checkbox" name="antecedents_fam[]" value="cancer_foie" />
         <div class="choice-indicator square"></div>
-        <div class="choice-text">
-          <div class="choice-label">Cancer du foie</div>
-        </div>
+        <div class="choice-text"><div class="choice-label">Cancer du foie</div></div>
       </label>
       <label class="choice-option checkbox-option" data-value="cancer_prostate">
         <input type="checkbox" name="antecedents_fam[]" value="cancer_prostate" />
         <div class="choice-indicator square"></div>
-        <div class="choice-text">
-          <div class="choice-label">Cancer de la prostate</div>
-        </div>
+        <div class="choice-text"><div class="choice-label">Cancer de la prostate</div></div>
       </label>
       <label class="choice-option checkbox-option" data-value="cancer_autre">
         <input type="checkbox" name="antecedents_fam[]" value="cancer_autre" />
         <div class="choice-indicator square"></div>
-        <div class="choice-text">
-          <div class="choice-label">Autre cancer</div>
-        </div>
+        <div class="choice-text"><div class="choice-label">Autre cancer</div></div>
       </label>
-
       <div class="divider-label">Autres maladies</div>
       <label class="choice-option checkbox-option" data-value="diabete">
         <input type="checkbox" name="antecedents_fam[]" value="diabete" />
         <div class="choice-indicator square"></div>
-        <div class="choice-text">
-          <div class="choice-label">Diabète</div>
-        </div>
+        <div class="choice-text"><div class="choice-label">Diabète</div></div>
       </label>
       <label class="choice-option checkbox-option" data-value="maladies_cardiaques">
         <input type="checkbox" name="antecedents_fam[]" value="maladies_cardiaques" />
         <div class="choice-indicator square"></div>
-        <div class="choice-text">
-          <div class="choice-label">Maladies cardiaques</div>
-        </div>
+        <div class="choice-text"><div class="choice-label">Maladies cardiaques</div></div>
       </label>
       <label class="choice-option checkbox-option" data-value="hypertension">
         <input type="checkbox" name="antecedents_fam[]" value="hypertension" />
         <div class="choice-indicator square"></div>
-        <div class="choice-text">
-          <div class="choice-label">Hypertension artérielle</div>
-        </div>
+        <div class="choice-text"><div class="choice-label">Hypertension artérielle</div></div>
       </label>
       <label class="choice-option checkbox-option" data-value="aucun">
         <input type="checkbox" name="antecedents_fam[]" value="aucun" />
         <div class="choice-indicator square"></div>
-        <div class="choice-text">
-          <div class="choice-label">Aucun antécédent connu</div>
-        </div>
+        <div class="choice-text"><div class="choice-label">Aucun antécédent connu</div></div>
       </label>
     </div>
 
-    <!-- Commentaire libre -->
     <div class="textarea-wrap">
       <label class="textarea-label" for="antecedents-texte">Précisions complémentaires (facultatif)</label>
       <textarea id="antecedents-texte" rows="4"
@@ -833,16 +755,15 @@
     </div>
   </div>
 
-  <!-- Nav buttons -->
   <div class="nav-buttons" id="nav-buttons">
     <button class="btn btn-back" id="btn-back" style="display:none" onclick="prevSection()">Retour</button>
     <button class="btn btn-next" id="btn-next" onclick="nextSection()">Continuer</button>
   </div>
 
   <div class="safe-bottom"></div>
-</div><!-- /screen-form -->
+</div>
 
-<!-- ── Success ─────────────────────────────────────────────── -->
+<!-- Success -->
 <div id="screen-success">
   <div class="success-icon">
     <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -853,30 +774,34 @@
   <p class="success-msg">Votre questionnaire a bien été transmis. Votre médecin pourra consulter ces informations dans votre dossier médical.</p>
 </div>
 
-<!-- ═════════════════════════════════════════════════════════
-     JavaScript
-════════════════════════════════════════════════════════ -->
 <script>
-// ── Configuration ─────────────────────────────────────────
-// Remplacer par l'URL de votre API Django en production
-// API_BASE_URL = adresse de votre serveur Django
-// C'est l'URL que votre frontend React utilise aussi (VITE_API_URL sans /api/v1)
-// Public config (injected at runtime in the browser).
-// For static hosting, you can set window.__API_BASE_URL__ in vercel.json rewrites/build, or
-// add a small <script> before this file if you reuse it elsewhere.
-const API_BASE_URL = window.__API_BASE_URL__ || 'https://rnc-registre-nationale-de-cancer-1.onrender.com';
+// ── Configuration ────────────────────────────────────────────────────────────
+// URL de votre API Django (sans slash final)
+// Peut être surchargée via window.__API_BASE_URL__ (injection runtime)
+const API_BASE_URL = (window.__API_BASE_URL__ || 'https://rnc-registre-nationale-de-cancer-1.onrender.com').replace(/\/$/, '');
 
 const TOTAL_SECTIONS = 5;
 
-// ── État ──────────────────────────────────────────────────
+// ── État ─────────────────────────────────────────────────────────────────────
 let currentSection = 1;
 let patientId      = null;
 let patientData    = null;
 
-// ── Initialisation ────────────────────────────────────────
+// ── Initialisation ────────────────────────────────────────────────────────────
 window.addEventListener('DOMContentLoaded', () => {
-  const params = new URLSearchParams(window.location.search);
-  patientId    = getPatientIdFromPath() || params.get('id');
+  // ── FIX 1 : extraction de l'ID depuis le path ET les query params ──────────
+  // Supporte toutes les variantes d'URL générées par le frontend :
+  //   /patient/42
+  //   /patient/42?ref=P-2026-0001
+  //   /habitudes/42
+  //   ?id=42   (ancienne forme)
+  patientId = getPatientIdFromPath();
+
+  if (!patientId) {
+    // Fallback : lire depuis ?id= ou ?ref= (ref = registration_number, pas l'ID — on ignore)
+    const params = new URLSearchParams(window.location.search);
+    patientId = params.get('id');
+  }
 
   if (!patientId) {
     showError();
@@ -887,22 +812,40 @@ window.addEventListener('DOMContentLoaded', () => {
   initChoiceGroups();
 });
 
+// ── FIX 1 : regex élargi pour capturer /patient/42 ET /habitudes/42 ──────────
 function getPatientIdFromPath() {
-  // Supporte /patient/42 ou /patient/42?ref=...
-  const match = window.location.pathname.match(/\/patient\/(\d+)/);
+  // Correspond à :
+  //   /patient/42
+  //   /patient/42?ref=…
+  //   /habitudes/42
+  //   /questionnaire/42
+  const match = window.location.pathname.match(/\/(?:patient|habitudes|questionnaire)s?\/(\d+)/i);
   return match ? match[1] : null;
 }
 
-// ── Chargement du patient ─────────────────────────────────
+// ── Chargement du patient (endpoint public) ───────────────────────────────────
+// FIX 2 : utilise /public/ au lieu du endpoint racine qui exige IsAuthenticated
 async function loadPatient(id) {
   try {
-    const res = await fetch(`${API_BASE_URL}/api/v1/patients/${id}/`, {
+    // Essaie d'abord l'endpoint public dédié (sans auth requise)
+    let res = await fetch(`${API_BASE_URL}/api/v1/patients/${id}/public/`, {
       headers: { 'ngrok-skip-browser-warning': '1' }
     });
-    if (!res.ok) throw new Error('Not found');
-    patientData = await res.json();
 
-    // Pré-remplir avec les données existantes
+    // Fallback : si l'endpoint /public/ n'existe pas encore (déploiement progressif),
+    // essaie l'endpoint racine — peut fonctionner si le serveur autorise des IP publiques
+    if (!res.ok && res.status === 404) {
+      res = await fetch(`${API_BASE_URL}/api/v1/patients/${id}/`, {
+        headers: { 'ngrok-skip-browser-warning': '1' }
+      });
+    }
+
+    if (!res.ok) {
+      // 401/403 → non authentifié, 404 → patient inexistant
+      throw new Error(`HTTP ${res.status}`);
+    }
+
+    patientData = await res.json();
     prefillForm(patientData);
     renderPatientCard(patientData);
 
@@ -910,6 +853,7 @@ async function loadPatient(id) {
     document.getElementById('screen-form').classList.add('visible');
     updateProgress();
   } catch (e) {
+    console.error('Erreur chargement patient:', e);
     showError();
   }
 }
@@ -917,14 +861,13 @@ async function loadPatient(id) {
 function renderPatientCard(p) {
   const initials = `${(p.nom || '')[0] || ''}${(p.prenom || '')[0] || ''}`.toUpperCase();
   document.getElementById('patient-initials').textContent = initials || '?';
-  document.getElementById('patient-name').textContent     = `${p.nom} ${p.prenom}`;
+  document.getElementById('patient-name').textContent     = `${p.nom || ''} ${p.prenom || ''}`.trim() || '—';
   document.getElementById('patient-meta').textContent     =
     [p.age ? `${p.age} ans` : null, p.wilaya].filter(Boolean).join(' · ') || '—';
   document.getElementById('patient-reg').textContent      = p.registration_number || '';
 }
 
 function prefillForm(p) {
-  // Radio : tabagisme, alcool, activite_physique, alimentation
   ['tabagisme', 'alcool', 'activite_physique', 'alimentation'].forEach(field => {
     const val = p[field];
     if (!val || val === 'inconnu') return;
@@ -935,13 +878,11 @@ function prefillForm(p) {
     }
   });
 
-  // Checkboxes antécédents familiaux
+  // Pré-remplissage antécédents familiaux
   const texteActuel = p.antecedents_familiaux || '';
-  // Tenter de parser les cases cochées depuis le texte sauvegardé
-  // Format attendu : "cancer_sein|cancer_colorectal|diabete||Précision libre..."
   if (texteActuel.includes('|')) {
-    const parts    = texteActuel.split('||');
-    const coches   = (parts[0] || '').split('|').filter(Boolean);
+    const parts      = texteActuel.split('||');
+    const coches     = (parts[0] || '').split('|').filter(Boolean);
     const commentaire = parts[1] || '';
     coches.forEach(val => {
       const input = document.querySelector(`input[name="antecedents_fam[]"][value="${val}"]`);
@@ -956,17 +897,15 @@ function prefillForm(p) {
   }
 }
 
-// ── Init interactions choix ───────────────────────────────
+// ── Init interactions ─────────────────────────────────────────────────────────
 function initChoiceGroups() {
   // Radio buttons
   document.querySelectorAll('.choice-group:not(#group-antecedents) .choice-option').forEach(opt => {
     opt.addEventListener('click', () => {
       const input = opt.querySelector('input[type="radio"]');
       if (!input) return;
-      // Déselectionner tous dans le groupe
       const group = opt.closest('.choice-group');
       group.querySelectorAll('.choice-option').forEach(o => o.classList.remove('selected'));
-      // Sélectionner celui-ci
       input.checked = true;
       opt.classList.add('selected');
     });
@@ -975,22 +914,17 @@ function initChoiceGroups() {
   // Checkboxes
   document.querySelectorAll('.checkbox-option').forEach(opt => {
     opt.addEventListener('click', e => {
-      if (e.target.tagName === 'INPUT') return; // laisser le comportement natif
+      if (e.target.tagName === 'INPUT') return;
       const input = opt.querySelector('input[type="checkbox"]');
       input.checked = !input.checked;
       opt.classList.toggle('selected', input.checked);
 
-      // Si "Aucun" coché → décocher les autres
       if (input.value === 'aucun' && input.checked) {
         document.querySelectorAll('.checkbox-option').forEach(o => {
           const inp = o.querySelector('input');
-          if (inp.value !== 'aucun') {
-            inp.checked = false;
-            o.classList.remove('selected');
-          }
+          if (inp.value !== 'aucun') { inp.checked = false; o.classList.remove('selected'); }
         });
       } else if (input.checked) {
-        // Décocher "Aucun" si on coche autre chose
         const aucunInput = document.querySelector('input[value="aucun"]');
         if (aucunInput) {
           aucunInput.checked = false;
@@ -1000,7 +934,6 @@ function initChoiceGroups() {
     });
   });
 
-  // Sync native checkbox change
   document.querySelectorAll('input[type="checkbox"]').forEach(inp => {
     inp.addEventListener('change', () => {
       inp.closest('.choice-option').classList.toggle('selected', inp.checked);
@@ -1008,7 +941,7 @@ function initChoiceGroups() {
   });
 }
 
-// ── Navigation ────────────────────────────────────────────
+// ── Navigation ────────────────────────────────────────────────────────────────
 function updateProgress() {
   const pct = Math.round(((currentSection - 1) / TOTAL_SECTIONS) * 100);
   document.getElementById('progress-text').textContent = `Section ${currentSection} sur ${TOTAL_SECTIONS}`;
@@ -1038,42 +971,35 @@ function showSection(n) {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-function nextSection() {
-  if (currentSection < TOTAL_SECTIONS) showSection(currentSection + 1);
-}
+function nextSection() { if (currentSection < TOTAL_SECTIONS) showSection(currentSection + 1); }
+function prevSection() { if (currentSection > 1) showSection(currentSection - 1); }
 
-function prevSection() {
-  if (currentSection > 1) showSection(currentSection - 1);
-}
-
-// ── Collecte des données ──────────────────────────────────
+// ── Collecte des données ──────────────────────────────────────────────────────
 function collectFormData() {
   const get = (name) => {
     const el = document.querySelector(`input[name="${name}"]:checked`);
     return el ? el.value : 'inconnu';
   };
 
-  // Antécédents familiaux (checkboxes)
   const cochees = Array.from(
     document.querySelectorAll('input[name="antecedents_fam[]"]:checked')
   ).map(i => i.value);
   const commentaire = document.getElementById('antecedents-texte').value.trim();
 
-  // Format de stockage : "val1|val2|val3||commentaire libre"
   const antecedentsFamiliaux = cochees.length
     ? `${cochees.join('|')}||${commentaire}`
     : commentaire;
 
   return {
-    tabagisme:          get('tabagisme'),
-    alcool:             get('alcool'),
-    activite_physique:  get('activite_physique'),
-    alimentation:       get('alimentation'),
+    tabagisme:             get('tabagisme'),
+    alcool:                get('alcool'),
+    activite_physique:     get('activite_physique'),
+    alimentation:          get('alimentation'),
     antecedents_familiaux: antecedentsFamiliaux,
   };
 }
 
-// ── Soumission ────────────────────────────────────────────
+// ── Soumission ────────────────────────────────────────────────────────────────
 async function submitForm() {
   const btnNext = document.getElementById('btn-next');
   btnNext.disabled = true;
@@ -1085,8 +1011,11 @@ async function submitForm() {
   try {
     const res = await fetch(`${API_BASE_URL}/api/v1/patients/${patientId}/habitudes/`, {
       method:  'PATCH',
-      headers: { 'Content-Type': 'application/json', 'ngrok-skip-browser-warning': '1' },
-      body:    JSON.stringify(payload),
+      headers: {
+        'Content-Type': 'application/json',
+        'ngrok-skip-browser-warning': '1'
+      },
+      body: JSON.stringify(payload),
     });
 
     if (!res.ok) {
@@ -1094,7 +1023,6 @@ async function submitForm() {
       throw new Error(body.detail || `Erreur ${res.status}`);
     }
 
-    // Succès
     document.getElementById('screen-form').style.display    = 'none';
     document.getElementById('screen-success').classList.add('visible');
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -1107,7 +1035,7 @@ async function submitForm() {
   }
 }
 
-// ── Helpers ───────────────────────────────────────────────
+// ── Helpers ───────────────────────────────────────────────────────────────────
 function showError() {
   document.getElementById('screen-loading').style.display = 'none';
   document.getElementById('screen-error').style.display   = 'block';
