@@ -911,33 +911,34 @@ function initChoiceGroups() {
   });
 
   // Checkboxes
-  document.querySelectorAll('.checkbox-option').forEach(opt => {
-    opt.addEventListener('click', e => {
-      if (e.target.tagName === 'INPUT') return;
-      const input = opt.querySelector('input[type="checkbox"]');
-      input.checked = !input.checked;
-      opt.classList.toggle('selected', input.checked);
+  
+document.querySelectorAll('.checkbox-option').forEach(opt => {
+  opt.addEventListener('click', e => {
+    e.preventDefault(); // Bloque le comportement natif du label
 
-      if (input.value === 'aucun' && input.checked) {
-        document.querySelectorAll('.checkbox-option').forEach(o => {
-          const inp = o.querySelector('input');
-          if (inp.value !== 'aucun') { inp.checked = false; o.classList.remove('selected'); }
-        });
-      } else if (input.checked) {
-        const aucunInput = document.querySelector('input[value="aucun"]');
-        if (aucunInput) {
-          aucunInput.checked = false;
-          aucunInput.closest('.choice-option').classList.remove('selected');
+    const input = opt.querySelector('input[type="checkbox"]');
+    input.checked = !input.checked;
+    opt.classList.toggle('selected', input.checked);
+
+    if (input.value === 'aucun' && input.checked) {
+      // Décocher tout le reste
+      document.querySelectorAll('.checkbox-option').forEach(o => {
+        const inp = o.querySelector('input');
+        if (inp.value !== 'aucun') {
+          inp.checked = false;
+          o.classList.remove('selected');
         }
+      });
+    } else if (input.checked) {
+      // Décocher "Aucun" si autre chose est coché
+      const aucunInput = document.querySelector('input[value="aucun"]');
+      if (aucunInput) {
+        aucunInput.checked = false;
+        aucunInput.closest('.choice-option').classList.remove('selected');
       }
-    });
+    }
   });
-
-  document.querySelectorAll('input[type="checkbox"]').forEach(inp => {
-    inp.addEventListener('change', () => {
-      inp.closest('.choice-option').classList.toggle('selected', inp.checked);
-    });
-  });
+});
 }
 
 // ── Navigation ────────────────────────────────────────────────────────────────
