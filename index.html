@@ -210,11 +210,13 @@
     .choice-option:active { background: var(--bg-input); }
 
     .choice-option input[type="radio"],
-    .choice-option input[type="checkbox"] {
-      position: absolute;
-      opacity: 0;
-      width: 0; height: 0;
-    }
+.choice-option input[type="checkbox"] {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
 
     .choice-indicator {
       width: 22px;
